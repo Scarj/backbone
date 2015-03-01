@@ -1,4 +1,4 @@
-define(['contactManager', 'underscore', 'backbone'], function (contactManager, _, Backbone) {
+define(['underscore', 'backbone'], function (_, Backbone) {
     var Contact = Backbone.Model.extend({
         defaults: {
             name: null,

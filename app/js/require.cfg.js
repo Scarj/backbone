@@ -10,5 +10,5 @@ require.config({
 });
 
 require(['contactManager'],function(ContactManager){
-
+    window.ContactManager = ContactManager;
 });
