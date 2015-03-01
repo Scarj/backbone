@@ -1,5 +1,5 @@
 define(['underscore', 'backbone'], function (_, Backbone) {
-    var Contact = Backbone.Model.extend({
+    var Contacts = Backbone.Model.extend({
         defaults: {
             name: null,
             tel: null,
@@ -11,5 +11,5 @@ define(['underscore', 'backbone'], function (_, Backbone) {
             this.set('avatar', _.random(1, 15) + '.jpg');
         }
     });
-    return Contact;
+    return Contacts;
 });
