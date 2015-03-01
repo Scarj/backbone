@@ -1,8 +1,12 @@
-define(['models/contact','collections/contacts'], function (ContactModel,ContactsCollection) {
+define([
+    'models/contact',
+    'collections/contacts',
+    'views/contact'
+], function (ContactModel, ContactsCollection, ContactView) {
     var ContactManager = {
         Models: {Contact: ContactModel},
         Collections: {Contacts: ContactsCollection},
-        Views: {}
+        Views: {Contact: ContactView}
     };
     return ContactManager;
 });
