@@ -1,10 +1,12 @@
 define([
     'jquery',
+    'backbone',
     'models/contact',
     'collections/contacts',
     'views/contact',
-    'views/contacts'
-], function ($, ContactModel, ContactsCollection, ContactView, ContactsListView) {
+    'views/contacts',
+    'router'
+], function ($, Backbone, ContactModel, ContactsCollection, ContactView, ContactsListView, Router) {
     var ContactManager = {
         Models: {Contact: ContactModel},
         Collections: {Contacts: ContactsCollection},
@@ -12,11 +14,33 @@ define([
 
         start: function (data) {
             var contacts = new ContactsCollection(data.contacts);
+            var router = new Router();
 
-            var contactsView = new ContactsListView({
-                collection: contacts
+            router.on('route:home', function () {
+                router.navigate('contacts', {
+                    trigger: true,
+                    replace: true
+                });
             });
-            $('.main-container').html(contactsView.render().$el);
+
+            router.on('route:showContacts', function () {
+                var contactsView = new ContactsListView({
+                    collection: contacts
+                });
+                $('.main-container').html(contactsView.render().$el);
+            });
+
+            router.on('route:newContact', function () {
+                console.log('New contact');
+            });
+
+            router.on('route:editContact', function (id) {
+                console.log('Edit contact');
+            });
+
+            Backbone.history.start();
+
+
         }
     };
     return ContactManager;
