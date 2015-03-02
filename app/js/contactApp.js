@@ -1,12 +1,13 @@
 define([
+    'router',
     'jquery',
     'backbone',
     'models/contact',
     'collections/contacts',
     'views/contact',
     'views/contacts',
-    'router'
-], function ($, Backbone, ContactModel, ContactsCollection, ContactView, ContactsListView, Router) {
+    'views/contactForm'
+], function (Router, $, Backbone, ContactModel, ContactsCollection, ContactView, ContactsListView, ContactFormView) {
     var ContactManager = {
         Models: {Contact: ContactModel},
         Collections: {Contacts: ContactsCollection},
@@ -31,7 +32,15 @@ define([
             });
 
             router.on('route:newContact', function () {
-                console.log('New contact');
+                var newContactForm = new ContactFormView();
+
+                newContactForm.on('form:submitted', function(attrs) {
+                    attrs.id = contacts.isEmpty() ? 1 : (_.max(contacts.pluck('id')) + 1);
+                    contacts.add(attrs);
+                    router.navigate('contacts', true);
+                });
+
+                $('.main-container').html(newContactForm.render().$el);
             });
 
             router.on('route:editContact', function (id) {
