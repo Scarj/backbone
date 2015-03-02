@@ -11,7 +11,9 @@ define([
         },
 
         render: function () {
-            var html = this.template();
+            var html = this.template(_.extend(this.model.toJSON(), {
+                isNew: this.model.isNew()
+            }));
             this.$el.append(html);
             return this;
         },

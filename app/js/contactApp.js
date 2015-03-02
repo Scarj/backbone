@@ -32,9 +32,11 @@ define([
             });
 
             router.on('route:newContact', function () {
-                var newContactForm = new ContactFormView();
+                var newContactForm = new ContactFormView({
+                    model: new ContactModel()
+                });
 
-                newContactForm.on('form:submitted', function(attrs) {
+                newContactForm.on('form:submitted', function (attrs) {
                     attrs.id = contacts.isEmpty() ? 1 : (_.max(contacts.pluck('id')) + 1);
                     contacts.add(attrs);
                     router.navigate('contacts', true);
@@ -44,7 +46,23 @@ define([
             });
 
             router.on('route:editContact', function (id) {
-                console.log('Edit contact');
+                var contact = contacts.get(id),
+                    editContactForm;
+
+                if (contact) {
+                    editContactForm = new ContactFormView({
+                        model: contact
+                    });
+
+                    $('.main-container').html(editContactForm.render().$el);
+                } else {
+                    router.navigate('contacts', true);
+                }
+
+                editContactForm.on('form:submitted', function(attrs) {
+                    contact.set(attrs);
+                    router.navigate('contacts', true);
+                });
             });
 
             Backbone.history.start();
